@@ -1,4 +1,4 @@
-from logger import write_log
+﻿from .logger import write_log
 
 class PaperTrader:
 

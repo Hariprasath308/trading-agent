@@ -1,0 +1,39 @@
+import json
+from datetime import datetime
+from pathlib import Path
+
+REPORT_FILE = Path(__file__).resolve().parent.parent / "reports" / "report.json"
+
+
+def update_report(
+    investment,
+    current_value,
+    total_trades,
+    winning_trades,
+    losing_trades
+):
+    profit = current_value - investment
+
+    profit_percentage = (profit / investment) * 100
+
+    if total_trades == 0:
+        win_rate = 0
+    else:
+        win_rate = (winning_trades / total_trades) * 100
+
+    report = {
+        "investment": investment,
+        "current_value": current_value,
+        "profit": round(profit, 2),
+        "profit_percentage": round(profit_percentage, 2),
+        "total_trades": total_trades,
+        "winning_trades": winning_trades,
+        "losing_trades": losing_trades,
+        "win_rate": round(win_rate, 2),
+        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+
+    with open(REPORT_FILE, "w") as f:
+        json.dump(report, f, indent=4)
+
+    print("Report Updated")
